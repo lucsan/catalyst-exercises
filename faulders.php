@@ -6,20 +6,20 @@
  */
 namespace fauxder;
 
-
 interface FaulderInterface
 {
     public function setFaulder (Faulder $folder);
     public function setPhile (Phile $phile);
     public function getFaulders ();
     public function getPhiles ();
+    public function createPhile (String $name, String $chars);
 }
 
 abstract class FaulderBase implements FaulderInterface
 {
-    private $name = '';
+    private $name     = '';
     private $faulders = [];
-    private $philes =[];
+    private $philes   = [];
 
     public function __construct(String $name)
     {
@@ -29,6 +29,10 @@ abstract class FaulderBase implements FaulderInterface
     public function getName ()
     {
         return $this->name;
+    }
+
+    public function createPhile (String $name, String $chars) {
+        $this->philes[] = new Phile($name, $chars);
     }
 
     public function setFaulder(Faulder $faulder) {
@@ -88,9 +92,9 @@ class OddFaulder extends FaulderBase
     }
 }
 
-$pa = new Phile('afile', 'somecharsaaaa');
-$pb = new Phile('bfile', 'somecharsbbbb');
-$pc = new Phile('cfile', 'somecharscccc');
+//$pa = new Phile('afile', 'somecharsaaaa');
+//$pb = new Phile('bfile', 'somecharsbbbb');
+//$pc = new Phile('cfile', 'somecharscccc');
 
 $fa = new Faulder('afolder');
 $fb = new Faulder('bfolder');
@@ -103,10 +107,13 @@ echo "OddFaulders", PHP_EOL;
 echo $ofa->getName(), PHP_EOL;
 
 $fa->setFaulder($fb);
-$fa->setPhile($pa);
-$fa->setPhile($pb);
-$fc->setPhile($pc);
-$fa->setFaulder($fc);
+$fa->createPhile('afile', 'somecharsaaaa');
+$fb->createPhile('bfile', 'somecharsbbbb');
+$fb->setFaulder($fc);
+
+//$fa->setPhile($pb);
+//$fc->setPhile($pc);
+//$fa->setFaulder($fc);
 
 echo "Faulders", PHP_EOL;
 print_r($fa->getFaulders());
